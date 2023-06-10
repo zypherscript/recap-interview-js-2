@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const PersonList = () => {
+const PersonList: React.FC = () => {
     const [persons, setPersons] = useState<Person[]>([]);
     const [error, setError] = useState<string>('');
 
