@@ -2,11 +2,7 @@ import { describe, expect, vi, test } from "vitest";
 import { render, screen } from "@testing-library/react";
 import axios from "axios";
 import PersonList from "./PersonList";
-// import React from 'react';
 
-// Jest
-// jest.mock('axios');
-// Vitest
 vi.mock("axios");
 
 describe("PersonList", () => {
@@ -49,5 +45,17 @@ describe("PersonList", () => {
     expect(screen.getByText("janesmith")).toBeInTheDocument();
     expect(screen.getByText("janesmith.com")).toBeInTheDocument();
     expect(screen.getByText("Company JM")).toBeInTheDocument();
+  });
+
+  test("displays error message on request failure", async () => {
+    (axios.get as jest.Mock).mockRejectedValue(new Error("Request failed"));
+
+    render(<PersonList />);
+
+    // Wait for the error message to be rendered
+    const errorMessage = await screen.findByText("Error retrieving data");
+
+    // Assert that the error message is displayed
+    expect(errorMessage).toBeInTheDocument();
   });
 });
